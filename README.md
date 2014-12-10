@@ -2,6 +2,36 @@
 
 The Play Framework combines productivity and performance making it easy to build scalable web applications with Java and Scala.  Play is developer friendly with a "just hit refresh" workflow and built-in testing support.  With Play, applications scale predictably due to a stateless and non-blocking architecture.  By being RESTful by default, including assets compilers, JSON & WebSocket support, Play is a perfect fit for modern web & mobile applications.
 
+## About this TLS branch
+
+### TLS differences
+
+This branch differs from the main play branch in that it supports TLS client authentication as well
+as server authentication. The `RequestHeader` trait has a cert method that allows you to request a client
+certificate asynchronously - the client will be asked for his certificate if he has one.
+
+```scala
+   def certs(required:Boolean): Future[Seq[Certificate]]
+```
+
+Certificates that are signed by CAs in the trust store can be requested, or by
+specifying the empty trust store any client certificate will be requested. This
+is useful for implementing protocols such as [WebID](http://webid.info/), as is done
+by [RWW-Play](http://github.com/read-write-web/rww-play)
+
+```scala
+  run  -Dhttps.port=8443 -Dhttps.trustStore=noCA
+```
+
+This API is still prone to change, see:
+* [ticket 828: client certificate support](https://play.lighthouseapp.com/projects/82401-play-20/tickets/828-client-certificate-support)
+* [ticket 787: passing certificate-validation-level info to the client](https://play.lighthouseapp.com/projects/82401/tickets/787)
+
+### Installing
+
+For your convenience the most recent builds that pass the test suites [are uploaded here](http://bblfish.net/work/repo/builds/Play2/).
+
+
 ### Learn More
 - [www.playframework.com](http://www.playframework.com)
 - [Download](http://www.playframework.com/download)
